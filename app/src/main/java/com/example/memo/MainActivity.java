@@ -153,9 +153,21 @@ public class MainActivity extends AppCompatActivity {
         catch (Exception e) {
             Toast.makeText(this, "Load Memo Failed", Toast.LENGTH_LONG).show();
         }
+        RadioButton rbLow = findViewById(R.id.radioButtonLow);
+        RadioButton rbMed = findViewById(R.id.radioButtonMed);
+        RadioButton rbHigh = findViewById(R.id.radioButtonHigh);
+
 
         EditText editMemo = findViewById(R.id.editMemo);
         EditText editName = findViewById(R.id.editNoteName);
+
+        if (currentMemo.getMemoPrio().equals("0")) {
+            rbLow.setChecked(true);
+        } else if (currentMemo.getMemoPrio().equals("1")) {
+            rbMed.setChecked(true);
+        } else {
+            rbHigh.setChecked(true);
+        }
 
 
         editMemo.setText(currentMemo.getMemoContent());
