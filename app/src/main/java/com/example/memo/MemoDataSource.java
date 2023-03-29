@@ -6,7 +6,9 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MemoDataSource {
 
@@ -32,8 +34,18 @@ public class MemoDataSource {
             ContentValues initialValues = new ContentValues();
 
             initialValues.put("memoname", m.getMemoName());
-            initialValues.put("prio", m.getMemoPrio());
+
+            if (m.getMemoPrio() == "Low") {
+                initialValues.put("prio", "0");
+            } else if (m.getMemoPrio() == "Medium") {
+                initialValues.put("prio", "1");
+            } else {
+                initialValues.put("prio", "2");
+            }
             initialValues.put("content", m.getMemoContent());
+
+
+            initialValues.put("date", m.getMemoTime());
             didSucceed = database.insert("memo", null, initialValues) > 0;
 
         } catch (Exception e) {
@@ -50,9 +62,15 @@ public class MemoDataSource {
             ContentValues updateValues = new ContentValues();
 
             updateValues.put("memoname", m.getMemoName());
-            updateValues.put("prio", m.getMemoPrio().toString());
+            if (m.getMemoPrio() == "Low") {
+                updateValues.put("prio", "0");
+            } else if (m.getMemoPrio() == "Medium") {
+                updateValues.put("prio", "1");
+            } else {
+                updateValues.put("prio", "2");
+            }
             updateValues.put("content", m.getMemoContent());
-            didSucceed = database.update("memo", updateValues, "_id" + rowId, null) > 0;
+            didSucceed = database.update("memo", updateValues, "_id = " + rowId, null) > 0;
         } catch (Exception e) {
 
         }
@@ -107,6 +125,7 @@ public class MemoDataSource {
                 newMemo.setMemoName(cursor.getString(1));
                 newMemo.setMemoPrio(cursor.getString(2));
                 newMemo.setMemoContent(cursor.getString(3));
+                newMemo.setMemoTime(cursor.getString(4));
                 memo.add(newMemo);
                 cursor.moveToNext();
 

@@ -3,6 +3,7 @@ package com.example.memo;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
@@ -29,12 +30,15 @@ public class MemoSettingsActivity extends AppCompatActivity {
 
         RadioButton rbSubject = findViewById(R.id.radioSubject);
         RadioButton rbImportance = findViewById(R.id.radioImportance);
+        RadioButton rbDate = findViewById(R.id.radioDate);
 
         if (sortBy.equalsIgnoreCase("memoname")) {
             rbSubject.setChecked(true);
         }
-        else if (sortBy.equalsIgnoreCase("importance")) {
+        else if (sortBy.equalsIgnoreCase("prio")) {
             rbImportance.setChecked(true);
+        } else {
+            rbDate.setChecked(true);
         }
 
 
@@ -56,11 +60,14 @@ public class MemoSettingsActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 RadioButton rbSubject = findViewById(R.id.radioSubject);
                 RadioButton rbImportance = findViewById(R.id.radioImportance);
+                RadioButton rbDate = findViewById(R.id.radioDate);
                 if (rbSubject.isChecked()) {
                     getSharedPreferences("MemoPreferences", Context.MODE_PRIVATE).edit().putString("sortfield","memoname").apply();
                 }
                 else if(rbImportance.isChecked()) {
-                    getSharedPreferences("MemoPreferences", Context.MODE_PRIVATE).edit().putString("sortfield","importance").apply();
+                    getSharedPreferences("MemoPreferences", Context.MODE_PRIVATE).edit().putString("sortfield","prio").apply();
+                } else {
+                    getSharedPreferences("MemoPreferences", Context.MODE_PRIVATE).edit().putString("sorfield", "date").apply();
                 }
 
 

@@ -5,20 +5,22 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import java.util.Calendar;
+
 public class Memo {
 
     private String memoName;
     private String memoContent;
 
     private String memoPrio;
-    private Long memoTime;
+    private String memoTime;
     private int memoId;
 
-    public Long getMemoTime() {
+    public String getMemoTime() {
         return memoTime;
     }
 
-    public void setMemoTime(Long memoTime) {
+    public void setMemoTime(String memoTime) {
         this.memoTime = memoTime;
     }
 

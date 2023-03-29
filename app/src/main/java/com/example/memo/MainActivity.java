@@ -14,8 +14,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         initToggleButton();
         initRadioButton();
         initTextChangedEvents();
-
+    setForEditing(false);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             initMemo(extras.getInt("memoId"));
@@ -89,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
                     ds.open();
 
                     if (currentMemo.getMemoId() == -1) {
+                        String curTime = String.valueOf(System.currentTimeMillis());
+                        currentMemo.setMemoTime(curTime);
                         wasSuccessful = ds.insertMemo(currentMemo);
                     }
 
@@ -120,12 +125,21 @@ public class MainActivity extends AppCompatActivity {
     private void setForEditing(boolean enabled) {
         EditText editMemo = findViewById(R.id.editMemo);
         EditText editMemoName = findViewById(R.id.editNoteName);
+        RadioButton editHigh = findViewById(R.id.radioButtonHigh);
+        RadioButton editMed = findViewById(R.id.radioButtonMed);
+        RadioButton editLow = findViewById(R.id.radioButtonLow);
         Button buttonSave = findViewById(R.id.buttonSave);
 
 
         editMemo.setEnabled(enabled);
         buttonSave.setEnabled(enabled);
         editMemoName.setEnabled(enabled);
+        editHigh.setEnabled(enabled);
+        editMed.setEnabled(enabled);
+        editLow.setEnabled(enabled);
+        if (enabled) {
+            editMemo.requestFocus();
+        }
     }
 
     private void initMemo(int id) {
@@ -146,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
 
         editMemo.setText(currentMemo.getMemoContent());
         editName.setText(currentMemo.getMemoName());
+
     }
 
     private void initTextChangedEvents(){

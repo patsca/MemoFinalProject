@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.text.format.DateFormat;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 
 public class MemoAdapter extends RecyclerView.Adapter {
@@ -21,13 +21,15 @@ public class MemoAdapter extends RecyclerView.Adapter {
     private View.OnClickListener mOnItemClickListener;
     private boolean isDeleting;
     private Context parentContext;
-    private MemoAdapter adapter;
+
 
     public class MemoViewHolder extends RecyclerView.ViewHolder {
 
         public TextView textViewMemo;
+
         public Button deleteButton;
         TextView textViewTime;
+        public TextView textViewContent;
 
 
         public MemoViewHolder(@NonNull View itemView) {
@@ -35,6 +37,7 @@ public class MemoAdapter extends RecyclerView.Adapter {
             textViewMemo = itemView.findViewById(R.id.textMemoName);
             deleteButton = itemView.findViewById(R.id.buttonDeleteMemo);
             textViewTime = itemView.findViewById(R.id.textViewTime);
+            textViewContent = itemView.findViewById(R.id.textViewContent);
             itemView.setTag(this);
             itemView.setOnClickListener(mOnItemClickListener);
 
@@ -51,6 +54,7 @@ public class MemoAdapter extends RecyclerView.Adapter {
         public TextView getTextViewTime() {
             return textViewTime;
         }
+        public TextView getTextViewContent() {return textViewContent;}
     }
 
 
@@ -74,6 +78,8 @@ public class MemoAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         MemoViewHolder mvh = (MemoViewHolder) holder;
         mvh.getTextViewMemo().setText(memoData.get(position).getMemoName());
+        mvh.getTextViewTime().setText(DateFormat.format("MM/dd/yyyy", Long.parseLong(memoData.get(position).getMemoTime())));
+        mvh.getTextViewContent().setText(memoData.get(position).getMemoContent());
 
         if (isDeleting) {
             mvh.getDeleteButton().setVisibility(View.VISIBLE);
